@@ -1,0 +1,80 @@
+Hey folks , This is the article regarding JAVA MEMORY MANAGEMENT (Beginner friendly....)
+In this article, we will see how the JVM allocates its memory and mainly we will discuss STACK, HEAP and CLASS(METHOD)AREA memories along with a live execution of Hey folks , This is the article regarding JAVA MEMORY MANAGEMENT (Beginner friendly....)code.
+
+The JVM's memory is split into five distinct sections:
+
+1) Heap
+2) Stack
+3)Class(Method) Area
+4)Native Method stack
+5)Program Counter Register
+
+Let's have a quick look:
+
+1) Heap: The Java Virtual Machine (JVM) reserves a part of memory called the heap, which is broken up into smaller memory blocks called objects. 
+         Based on its size and complexity, the heap allows each object a certain amount of memory.The JVM sets aside space on the heap for an object 
+         when it is created. The JVM can reuse the memory for other objects after the object is no longer required by marking it as free. 
+        Java's automatic memory management (Garbage collection)is made possible by this process of allocating and releasing memory on the heap.
+
+       Garbage collection is the process of locating items that are no longer needed by the application and releasing the memory they are taking up. 
+      A background thread searches for things that are eligible for trash collection on a recurring basis to accomplish this.
+
+         NOTE : It's crucial to remember that while Java's automatic memory management might be useful, improper use can compromise speed. For instance, if         your software creates and deletes a lot of objects quickly, this can tax the garbage collector and slow it down.
+
+         It's crucial to pay attention to how memory is used in your Java programmes if you want to prevent these problems. This can be achieved by                  employing strategies like object reuse whenever possible, avoiding the creation of pointless things, and writing your code in a way that reduces            the amount of objects that need to be generated and discarded.
+
+2)Stack:Java employs a call stack as well to track method calls. A data structure called the call stack is used to keep track of active function calls and          the data that goes with them. The local variables, parameters, and return address of each method are contained in a new stack frame that is                 constructed each time a method is called. Control is sent back to the caller method after the method has finished running by removing the stack             frame from the top of the stack.
+          Primitive types and object references are stored on the stack, which normally has less space than the heap. Because the stack memory is                     constrained, it's critical to pay attention to how much memory your application is utilising and prevent stack overflow problems, which happen             when the call stack runs out of room.
+
+3)Class(Method) Area : Each method has its own memory space, which it uses to store its local variables, parameters, and any temporary variables it may                           have created while running. This memory space is allotted on the call stack, and it is released after the method is finished.
+
+4)Native method stacks, often known as C stacks, are not created in the Java programming language. Each thread receives a specific amount of memory when it       is formed, and it can be either fixed or dynamic in nature.
+
+5)Program Counter Register: Each JVM thread that executes a certain method's work is connected to a programme counter register. Unlike native methods,                          which have an indeterminate value for the programme counter, non-native methods have a PC that contains the address of the next                            possible JVM instruction. A native pointer or the return address can be stored in a PC register depending on the platform.
+
+Let's take a look with a LIVE CODE execution:
+
+public class Factorial {
+
+    int n = 5;
+
+    int result = factorial(n);
+
+     System.out.println("Factorial of " + n + " is " + result);
+
+}
+
+Public static int factorial(int n):
+
+    if (n == 0){
+
+          return 1;
+
+    else{
+
+         return n * factorial(n - 1);
+
+}
+
+}
+
+}
+
+Here is what occurs in terms of memory use when we run this programme:
+
+1)Stack memory: When the main method is called, a fresh stack frame on the call stack is formed. This frame contains the method's local variables (n and result) as well as the return address. n is set to have a value of 5.
+
+2)Method memory: When n is equal to 5, the factorial method is invoked. The method's parameter (n) and return address are contained in a new stack frame that is generated on top of the primary stack frame.
+
+3)Stack memory: A new stack frame is formed on top of the prior factorial stack frame, which additionally holds n and a return address, when the factorial method calls itself recursively with n equal to 4. Once the basic case (n == 0) is reached, this process keeps going.
+
+4)Heap memory: The factorial method returns 1 in the base case. This value is kept as an object on the heap.
+
+5)Stack memory: The associated stack frame is erased from the call stack as soon as each recursive call to factorial is finished.
+
+Heap memory: The initial factorial call's returned result of the factorial computation is placed on the heap as an object.
+7)Stack memory: When the main procedure has finished, the call stack's call stack frame is destroyed.
+
+In this illustration, the factorial calculation's final result is stored in the heap, while method calls and local variables are tracked on the stack. The temporary variables and parameters utilised during execution are stored in the method memory.
+
+I'm hoping that this example will help clarify how Java programmes use the heap, stack, and method memory!
